@@ -4,23 +4,23 @@
 </div>
 <hr>
 
-<form>
+<form [formGroup]='formGroup'>
   <table>
     <tr>
       <th><label>Lastname:</label></th>
-      <th><input type="text" [formControl]="lastname"></th>
+      <th><input type="text" formControlName="lastname"></th>
     </tr>
     <tr>
       <th><label>First Name:</label></th>
-      <th><input type="text" [formControl]="firstname"></th>
+      <th><input type="text" formControlName="firstname"></th>
     </tr>
     <tr>
       <th><label>City:</label></th>
-      <th><input type="text" [formControl]="city"></th>
+      <th><input type="text" formControlName="city"></th>
     </tr>
     <tr>
       <th><label>Age:</label></th>
-      <th><input type="text" [formControl]="age"></th>
+      <th><input type="text" formControlName="age"></th>
     </tr>
     <tfoot><button type="button" (click)="postBackend()">Create</button></tfoot>
   </table>

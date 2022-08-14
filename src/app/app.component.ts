@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 
 export interface Employee {
@@ -16,24 +16,33 @@ export interface Employee {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
+  formGroup: FormGroup = new FormGroup({});
   infoGET: any;
 
-  lastname = new FormControl('');
+  /* lastname = new FormControl('');
   firstname = new FormControl('');
   city = new FormControl('');
-  age = new FormControl('');
+  age = new FormControl(''); */
 
   constructor(public http: HttpClient) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initForm();
+  }
+
+  initForm() {
+    this.formGroup.addControl('lastname', new FormControl(''));
+    this.formGroup.addControl('firstname', new FormControl(''));
+    this.formGroup.addControl('city', new FormControl(''));
+    this.formGroup.addControl('age', new FormControl(''));
+  }
 
   createObject() {
     const emp: Employee = {
-      lastname: this.lastname.value,
-      firstname: this.firstname.value,
-      city: this.city.value,
-      age: +this.age.value
+      lastname: this.formGroup.get('lastname')?.value,
+      firstname: this.formGroup.get('firstname')?.value,
+      city: this.formGroup.get('city')?.value,
+      age: +this.formGroup.get('age')?.value
     }
     return emp;
   }
@@ -46,7 +55,8 @@ export class AppComponent {
 
   postBackend() {
     let newEmp = this.createObject()
-    this.http.post(environment.baseUrl + '/post', newEmp).subscribe(response => {
+    console.log(this.formGroup.value);
+    this.http.post<Employee>(environment.baseUrl + '/post', newEmp).subscribe(response => {
       console.log(response);
     }, error => {
       console.error(error)
